@@ -1,4 +1,3 @@
-
 ENTRY(loader)
 OUTPUT_FORMAT(elf32-i386)
 OUTPUT_ARCH(i386:i386)
@@ -31,4 +30,3 @@ SECTIONS
 
   /DISCARD/ : { *(.fini_array*) *(.comment) }
 }
-
