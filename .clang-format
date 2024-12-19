@@ -5,3 +5,4 @@ UseTab: Never
 BreakBeforeBraces: Allman
 AllowShortIfStatementsOnASingleLine: false
 ColumnLimit: 120
+AccessModifierOffset: -2
