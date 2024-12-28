@@ -10,7 +10,7 @@
 class InterruptManager
 {
     //friend class InterruptHandler;
-   protected:
+  protected:
     struct GateDescriptor
     {
         uint16_t handlerAddressLowBits;
@@ -81,7 +81,7 @@ class InterruptManager
     Port8BitSlow programmableInterruptControllerSlaveCommandPort;
     Port8BitSlow programmableInterruptControllerSlaveDataPort;
 
-   public:
+  public:
     InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable);
     ~InterruptManager();
     uint16_t HardwareInterruptOffset();
