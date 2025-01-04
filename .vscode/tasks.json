@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-and-debug",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "make debug && qemu-system-x86_64 -kernel build/mykernel.bin -s -S"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "detail": "Build the kernel and start QEMU for debugging"
+    }
+  ]
+}
