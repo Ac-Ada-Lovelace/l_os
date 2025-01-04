@@ -1,6 +1,5 @@
 
 
-
 .set IRQ_BASE, 0x20
 
 .section .text
@@ -100,4 +99,3 @@ _ZN16InterruptManager15InterruptIgnoreEv:
 
 .data
     interruptnumber: .byte 0
-
