@@ -7,7 +7,7 @@
       "command": "bash",
       "args": [
         "-c",
-        "make debug && qemu-system-x86_64 -kernel build/mykernel.bin -s -S"
+        "make debug-build && qemu-system-x86_64 -kernel build/mykernel.bin -s -S"
       ],
       "group": {
         "kind": "build",

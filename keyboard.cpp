@@ -20,7 +20,7 @@ KeyboardDriver::~KeyboardDriver()
 {
 }
 
-void printf(char*);
+void printf(const char*);
 
 uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp)
 {

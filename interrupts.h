@@ -6,6 +6,8 @@
     #include "types.h"
     #include "port.h"
 
+void printf(const char* str);
+
 
     class InterruptManager;
 
