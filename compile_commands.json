@@ -1,0 +1,40 @@
+[
+    {
+        "arguments": [
+            "/usr/bin/gcc",
+            "-m32",
+            "-fno-use-cxa-atexit",
+            "-fno-builtin",
+            "-fno-rtti",
+            "-fno-exceptions",
+            "-Wno-write-strings",
+            "-fno-stack-protector",
+            "-c",
+            "-o",
+            "build/release/keyboard.o",
+            "keyboard.cpp"
+        ],
+        "directory": "/home/ac/repos/l_os",
+        "file": "/home/ac/repos/l_os/keyboard.cpp",
+        "output": "/home/ac/repos/l_os/build/release/keyboard.o"
+    },
+    {
+        "arguments": [
+            "/usr/bin/gcc",
+            "-m32",
+            "-fno-use-cxa-atexit",
+            "-fno-builtin",
+            "-fno-rtti",
+            "-fno-exceptions",
+            "-Wno-write-strings",
+            "-fno-stack-protector",
+            "-c",
+            "-o",
+            "build/release/kernel.o",
+            "kernel.cpp"
+        ],
+        "directory": "/home/ac/repos/l_os",
+        "file": "/home/ac/repos/l_os/kernel.cpp",
+        "output": "/home/ac/repos/l_os/build/release/kernel.o"
+    }
+]
