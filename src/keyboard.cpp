@@ -1,15 +1,22 @@
 
 #include "keyboard.h"
 
-KeyboardDriver::KeyboardDriver(InterruptManager* manager) : InterruptHandler(manager, 0x21), dataport(0x60), commandport(0x64) {
-    printf("Keyboard driver constructor\n");
+KeyboardEventHandler::KeyboardEventHandler() {}
+
+void KeyboardEventHandler::OnKeyDown(char) {}
+
+void KeyboardEventHandler::OnKeyUp(char) {}
+
+KeyboardDriver::KeyboardDriver(InterruptManager* manager, KeyboardEventHandler* handler)
+    : InterruptHandler(manager, 0x21), dataport(0x60), commandport(0x64)
+{
+    this->handler = handler;
 }
 
 KeyboardDriver::~KeyboardDriver() {}
 
 void KeyboardDriver::Activate()
 {
-    printf("Keyboard driver activated\n");
     while (commandport.Read() & 0x1)
         dataport.Read();
     commandport.Write(0xae);  // activate interrupts
@@ -20,171 +27,150 @@ void KeyboardDriver::Activate()
     dataport.Write(0xf4);
 }
 
-void printf(const char*);
-
 uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp)
 {
     uint8_t key = dataport.Read();
 
-    static bool shift = false;
-    static bool caps = false;
+    if (handler == 0)
+        return esp;
 
     if (key < 0x80)
     {
         switch (key)
         {
-            case 0x2A:  // Left Shift Pressed
-            case 0x36:  // Right Shift Pressed
-                shift = true;
-                break;
-            case 0x3A:  // Caps Lock
-                caps = !caps;
-                break;
             case 0x02:
-                printf(shift ^ caps ? "!" : "1");
+                handler->OnKeyDown('1');
                 break;
             case 0x03:
-                printf(shift ? "@" : "2");
+                handler->OnKeyDown('2');
                 break;
             case 0x04:
-                printf(shift ? "#" : "3");
+                handler->OnKeyDown('3');
                 break;
             case 0x05:
-                printf(shift ? "$" : "4");
+                handler->OnKeyDown('4');
                 break;
             case 0x06:
-                printf(shift ? "%" : "5");
+                handler->OnKeyDown('5');
                 break;
             case 0x07:
-                printf(shift ? "^" : "6");
+                handler->OnKeyDown('6');
                 break;
             case 0x08:
-                printf(shift ? "&" : "7");
+                handler->OnKeyDown('7');
                 break;
             case 0x09:
-                printf(shift ? "*" : "8");
+                handler->OnKeyDown('8');
                 break;
             case 0x0A:
-                printf(shift ? "(" : "9");
+                handler->OnKeyDown('9');
                 break;
             case 0x0B:
-                printf(shift ? ")" : "0");
+                handler->OnKeyDown('0');
                 break;
+
             case 0x10:
-                printf(shift ^ caps ? "Q" : "q");
+                handler->OnKeyDown('q');
                 break;
             case 0x11:
-                printf(shift ^ caps ? "W" : "w");
+                handler->OnKeyDown('w');
                 break;
             case 0x12:
-                printf(shift ^ caps ? "E" : "e");
+                handler->OnKeyDown('e');
                 break;
             case 0x13:
-                printf(shift ^ caps ? "R" : "r");
+                handler->OnKeyDown('r');
                 break;
             case 0x14:
-                printf(shift ^ caps ? "T" : "t");
+                handler->OnKeyDown('t');
                 break;
             case 0x15:
-                printf(shift ^ caps ? "Z" : "z");
+                handler->OnKeyDown('z');
                 break;
             case 0x16:
-                printf(shift ^ caps ? "U" : "u");
+                handler->OnKeyDown('u');
                 break;
             case 0x17:
-                printf(shift ^ caps ? "I" : "i");
+                handler->OnKeyDown('i');
                 break;
             case 0x18:
-                printf(shift ^ caps ? "O" : "o");
+                handler->OnKeyDown('o');
                 break;
             case 0x19:
-                printf(shift ^ caps ? "P" : "p");
+                handler->OnKeyDown('p');
                 break;
+
             case 0x1E:
-                printf(shift ^ caps ? "A" : "a");
+                handler->OnKeyDown('a');
                 break;
             case 0x1F:
-                printf(shift ^ caps ? "S" : "s");
+                handler->OnKeyDown('s');
                 break;
             case 0x20:
-                printf(shift ^ caps ? "D" : "d");
+                handler->OnKeyDown('d');
                 break;
             case 0x21:
-                printf(shift ^ caps ? "F" : "f");
+                handler->OnKeyDown('f');
                 break;
             case 0x22:
-                printf(shift ^ caps ? "G" : "g");
+                handler->OnKeyDown('g');
                 break;
             case 0x23:
-                printf(shift ^ caps ? "H" : "h");
+                handler->OnKeyDown('h');
                 break;
             case 0x24:
-                printf(shift ^ caps ? "J" : "j");
+                handler->OnKeyDown('j');
                 break;
             case 0x25:
-                printf(shift ^ caps ? "K" : "k");
+                handler->OnKeyDown('k');
                 break;
             case 0x26:
-                printf(shift ^ caps ? "L" : "l");
+                handler->OnKeyDown('l');
                 break;
+
             case 0x2C:
-                printf(shift ^ caps ? "Y" : "y");
+                handler->OnKeyDown('y');
                 break;
             case 0x2D:
-                printf(shift ^ caps ? "X" : "x");
+                handler->OnKeyDown('x');
                 break;
             case 0x2E:
-                printf(shift ^ caps ? "C" : "c");
+                handler->OnKeyDown('c');
                 break;
             case 0x2F:
-                printf(shift ^ caps ? "V" : "v");
+                handler->OnKeyDown('v');
                 break;
             case 0x30:
-                printf(shift ^ caps ? "B" : "b");
+                handler->OnKeyDown('b');
                 break;
             case 0x31:
-                printf(shift ^ caps ? "N" : "n");
+                handler->OnKeyDown('n');
                 break;
             case 0x32:
-                printf(shift ^ caps ? "M" : "m");
+                handler->OnKeyDown('m');
                 break;
             case 0x33:
-                printf(shift ? "<" : ",");
+                handler->OnKeyDown(',');
                 break;
             case 0x34:
-                printf(shift ? ">" : ".");
+                handler->OnKeyDown('.');
                 break;
             case 0x35:
-                printf(shift ? "_" : "-");
+                handler->OnKeyDown('-');
                 break;
+
             case 0x1C:
-                printf("\n");
+                handler->OnKeyDown('\n');
                 break;
             case 0x39:
-                printf(" ");
+                handler->OnKeyDown(' ');
                 break;
+
             default: {
-                char* foo = "KEYBOARD 0x00 ";
-                char* hex = "0123456789ABCDEF";
-                foo[11] = hex[(key >> 4) & 0xF];
-                foo[12] = hex[key & 0xF];
-                printf(foo);
+                printf("KEYBOARD 0x");
+                printfHex(key);
                 break;
             }
-        }
-    }
-    else
-    {
-        switch (key)
-        {
-            case 0xAA:  // Left Shift Released
-            case 0xB6:  // Right Shift Released
-                shift = false;
-                break;
-
-            default:
-
-                break;
         }
     }
     return esp;

@@ -1,18 +1,9 @@
+
 #include "driver.h"
 #include "gdt.h"
 #include "interrupts.h"
 #include "keyboard.h"
 #include "mouse.h"
-
-void flush()
-{
-    static uint16_t* VideoMemory = (uint16_t*)0xb8000;
-
-    for (int i = 0; i < 80 * 25; i++)
-    {
-        VideoMemory[i] = (VideoMemory[i] & 0xFF00) | ' ';
-    }
-}
 
 void printf(const char* str)
 {
@@ -51,6 +42,64 @@ void printf(const char* str)
     }
 }
 
+void printfHex(const uint8_t key)
+{
+    char* foo = "00";
+    char* hex = "0123456789ABCDEF";
+    foo[0] = hex[(key >> 4) & 0xF];
+    foo[1] = hex[key & 0xF];
+    printf(foo);
+}
+
+class PrintfKeyboardEventHandler : public KeyboardEventHandler
+{
+  public:
+    void OnKeyDown(char c)
+    {
+        char* foo = " ";
+        foo[0] = c;
+        printf(foo);
+    }
+};
+
+class MouseToConsole : public MouseEventHandler
+{
+    int8_t x, y;
+
+  public:
+    MouseToConsole() {}
+
+    virtual void OnActivate()
+    {
+        uint16_t* VideoMemory = (uint16_t*)0xb8000;
+        x = 40;
+        y = 12;
+        VideoMemory[80 * y + x] =
+            (VideoMemory[80 * y + x] & 0x0F00) << 4 | (VideoMemory[80 * y + x] & 0xF000) >> 4 | (VideoMemory[80 * y + x] & 0x00FF);
+    }
+
+    virtual void OnMouseMove(int xoffset, int yoffset)
+    {
+        static uint16_t* VideoMemory = (uint16_t*)0xb8000;
+        VideoMemory[80 * y + x] =
+            (VideoMemory[80 * y + x] & 0x0F00) << 4 | (VideoMemory[80 * y + x] & 0xF000) >> 4 | (VideoMemory[80 * y + x] & 0x00FF);
+
+        x += xoffset;
+        if (x >= 80)
+            x = 79;
+        if (x < 0)
+            x = 0;
+        y += yoffset;
+        if (y >= 25)
+            y = 24;
+        if (y < 0)
+            y = 0;
+
+        VideoMemory[80 * y + x] =
+            (VideoMemory[80 * y + x] & 0x0F00) << 4 | (VideoMemory[80 * y + x] & 0xF000) >> 4 | (VideoMemory[80 * y + x] & 0x00FF);
+    }
+};
+
 typedef void (*constructor)();
 extern "C" constructor start_ctors;
 extern "C" constructor end_ctors;
@@ -62,22 +111,21 @@ extern "C" void callConstructors()
 
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot_magic*/)
 {
-    flush();
-
-    const char* hello = "Hello, World!\n";
-
-    printf(hello);
+    printf("Hello World! --- http://www.AlgorithMan.de\n");
 
     GlobalDescriptorTable gdt;
     InterruptManager interrupts(0x20, &gdt);
 
-    printf("Initializing hardware, stage 1\n");
+    printf("Initializing Hardware, Stage 1\n");
 
-    Driver::DriverManager drvManager;
+    DriverManager drvManager;
 
-    // KeyboardDriver keyboard(&interrupts);
-    // drvManager.AddDriver(&keyboard);
-    MouseDriver mouse(&interrupts);
+    PrintfKeyboardEventHandler kbhandler;
+    KeyboardDriver keyboard(&interrupts, &kbhandler);
+    drvManager.AddDriver(&keyboard);
+
+    MouseToConsole mousehandler;
+    MouseDriver mouse(&interrupts, &mousehandler);
     drvManager.AddDriver(&mouse);
 
     printf("Initializing Hardware, Stage 2\n");

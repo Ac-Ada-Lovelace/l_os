@@ -15,7 +15,7 @@ DEBUG_ISO_DIR = $(BUILD_DIR)/debug_iso
 SRC_RIR=src
 UPDATE_DIR=$(BUILD_DIR)/update
 # 定义目标文件
-OBJECTS = loader.o gdt.o driver.o port.o interruptstubs.o interrupts.o keyboard.o kernel.o mouse.o
+OBJECTS = loader.o gdt.o driver.o port.o interruptstubs.o interrupts.o keyboard.o mouse.o kernel.o 
 objects_release = $(addprefix $(RELEASE_DIR)/, $(OBJECTS))
 objects_debug = $(addprefix $(DEBUG_DIR)/, $(OBJECTS))
 

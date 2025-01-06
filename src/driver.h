@@ -2,27 +2,29 @@
 #define __DRIVER_H
 
 void printf(const char*);
+
 class Driver
 {
   public:
     Driver();
     ~Driver();
-    void Activate();
-    int Reset();
-    void Deactive();
+    virtual void Activate();
 
-    class DriverManager
-    {
-      private:
-        Driver* drivers[255];
-        int numDrivers;
+    virtual int Reset();
+    virtual void Deactivate();
+};
 
-      public:
-        DriverManager();
-        void AddDriver(Driver* drv);
+class DriverManager
+{
+  private:
+    Driver* drivers[255];
+    int numDrivers;
 
-        void ActivateAll();
-    };
+  public:
+    DriverManager();
+    void AddDriver(Driver* drv);
+
+    void ActivateAll();
 };
 
 #endif  // !__DRIVER_H

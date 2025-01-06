@@ -3,7 +3,7 @@
 
 Driver::Driver()
 {
-    // Initialize the driver
+    // Initialize the driverdirpp
 }
 
 Driver::~Driver()
@@ -22,24 +22,24 @@ int Driver::Reset()
     return 0;
 }
 
-void Driver::Deactive()
+void Driver::Deactivate()
 {
     // Deactivate the driver
 }
 
-Driver::DriverManager::DriverManager()
+DriverManager::DriverManager()
 {
     printf("DriverManager constructor\n");
     numDrivers = 0;
 }
 
-void Driver::DriverManager::AddDriver(Driver* drv)
+void DriverManager::AddDriver(Driver* drv)
 {
     drivers[numDrivers] = drv;
     numDrivers++;
 }
 
-void Driver::DriverManager::ActivateAll()
+void DriverManager::ActivateAll()
 {
     for (int i = 0; i < numDrivers; i++)
     {
