@@ -40,7 +40,7 @@ run: mykernel.iso
 
 runb: mykernel.iso
 	(killall VirtualBox && sleep 1) || true
-	VirtualBoxVM --startvm 'wyoos' &
+	VirtualBoxVM --startvm 'l_os' &
 
 # 普通模式的构建规则
 mykernel.bin: linker.ld $(objects_release)
@@ -57,7 +57,7 @@ debug-build: $(objects_debug)
 # 创建ISO镜像的函数
 define create_iso
 	mkdir -p $(ISO_DIR)/boot/grub
-	cp mykernel.bin $(ISO_DIR)/boot/mykernel.bin
+	mv mykernel.bin $(ISO_DIR)/boot/mykernel.bin
 	echo 'set timeout=0'                      > $(ISO_DIR)/boot/grub/grub.cfg
 	echo 'set default=0'                     >> $(ISO_DIR)/boot/grub/grub.cfg
 	echo ''                                  >> $(ISO_DIR)/boot/grub/grub.cfg
@@ -65,11 +65,14 @@ define create_iso
 	echo '  multiboot /boot/mykernel.bin'    >> $(ISO_DIR)/boot/grub/grub.cfg
 	echo '  boot'                            >> $(ISO_DIR)/boot/grub/grub.cfg
 	echo '}'                                 >> $(ISO_DIR)/boot/grub/grub.cfg
+	echo $1
 	mkdir -p $1
-	grub-mkrescue --output=$1/mykernel.iso $(ISO_DIR)
+
+	grub-mkrescue --output=mykernel.iso ./$(ISO_DIR)
+	mv mykernel.iso $1
 	rm -rf $(ISO_DIR)
-	rm mykernel.bin
 endef
+# grub-mkrescue --output=$1/mykernel.iso ./$(ISO_DIR)
 
 # 安装规则
 install: mykernel.bin

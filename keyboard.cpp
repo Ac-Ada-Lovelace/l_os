@@ -20,139 +20,144 @@ void printf(const char*);
 uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp)
 {
     uint8_t key = dataport.Read();
-    printf("key int");
+
+    static bool shift = false;
+    static bool caps = false;
+
     if (key < 0x80)
     {
         switch (key)
         {
+            case 0x2A:  // Left Shift Pressed
+            case 0x36:  // Right Shift Pressed
+                shift = true;
+                break;
+            case 0x3A:  // Caps Lock
+                caps = !caps;
+                break;
             case 0x02:
-                printf("1");
+                printf(shift ^ caps ? "!" : "1");
                 break;
             case 0x03:
-                printf("2");
+                printf(shift ? "@" : "2");
                 break;
             case 0x04:
-                printf("3");
+                printf(shift ? "#" : "3");
                 break;
             case 0x05:
-                printf("4");
+                printf(shift ? "$" : "4");
                 break;
             case 0x06:
-                printf("5");
+                printf(shift ? "%" : "5");
                 break;
             case 0x07:
-                printf("6");
+                printf(shift ? "^" : "6");
                 break;
             case 0x08:
-                printf("7");
+                printf(shift ? "&" : "7");
                 break;
             case 0x09:
-                printf("8");
+                printf(shift ? "*" : "8");
                 break;
             case 0x0A:
-                printf("9");
+                printf(shift ? "(" : "9");
                 break;
             case 0x0B:
-                printf("0");
+                printf(shift ? ")" : "0");
                 break;
-
             case 0x10:
-                printf("q");
+                printf(shift ^ caps ? "Q" : "q");
                 break;
             case 0x11:
-                printf("w");
+                printf(shift ^ caps ? "W" : "w");
                 break;
             case 0x12:
-                printf("e");
+                printf(shift ^ caps ? "E" : "e");
                 break;
             case 0x13:
-                printf("r");
+                printf(shift ^ caps ? "R" : "r");
                 break;
             case 0x14:
-                printf("t");
+                printf(shift ^ caps ? "T" : "t");
                 break;
             case 0x15:
-                printf("z");
+                printf(shift ^ caps ? "Z" : "z");
                 break;
             case 0x16:
-                printf("u");
+                printf(shift ^ caps ? "U" : "u");
                 break;
             case 0x17:
-                printf("i");
+                printf(shift ^ caps ? "I" : "i");
                 break;
             case 0x18:
-                printf("o");
+                printf(shift ^ caps ? "O" : "o");
                 break;
             case 0x19:
-                printf("p");
+                printf(shift ^ caps ? "P" : "p");
                 break;
-
             case 0x1E:
-                printf("a");
+                printf(shift ^ caps ? "A" : "a");
                 break;
             case 0x1F:
-                printf("s");
+                printf(shift ^ caps ? "S" : "s");
                 break;
             case 0x20:
-                printf("d");
+                printf(shift ^ caps ? "D" : "d");
                 break;
             case 0x21:
-                printf("f");
+                printf(shift ^ caps ? "F" : "f");
                 break;
             case 0x22:
-                printf("g");
+                printf(shift ^ caps ? "G" : "g");
                 break;
             case 0x23:
-                printf("h");
+                printf(shift ^ caps ? "H" : "h");
                 break;
             case 0x24:
-                printf("j");
+                printf(shift ^ caps ? "J" : "j");
                 break;
             case 0x25:
-                printf("k");
+                printf(shift ^ caps ? "K" : "k");
                 break;
             case 0x26:
-                printf("l");
+                printf(shift ^ caps ? "L" : "l");
                 break;
-
             case 0x2C:
-                printf("y");
+                printf(shift ^ caps ? "Y" : "y");
                 break;
             case 0x2D:
-                printf("x");
+                printf(shift ^ caps ? "X" : "x");
                 break;
             case 0x2E:
-                printf("c");
+                printf(shift ^ caps ? "C" : "c");
                 break;
             case 0x2F:
-                printf("v");
+                printf(shift ^ caps ? "V" : "v");
                 break;
             case 0x30:
-                printf("b");
+                printf(shift ^ caps ? "B" : "b");
                 break;
             case 0x31:
-                printf("n");
+                printf(shift ^ caps ? "N" : "n");
                 break;
             case 0x32:
-                printf("m");
+                printf(shift ^ caps ? "M" : "m");
                 break;
             case 0x33:
-                printf(",");
+                printf(shift ? "<" : ",");
                 break;
             case 0x34:
-                printf(".");
+                printf(shift ? ">" : ".");
                 break;
             case 0x35:
-                printf("-");
+                printf(shift ? "_" : "-");
                 break;
-
             case 0x1C:
                 printf("\n");
                 break;
             case 0x39:
                 printf(" ");
                 break;
-
             default: {
                 char* foo = "KEYBOARD 0x00 ";
                 char* hex = "0123456789ABCDEF";
@@ -161,6 +166,20 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp)
                 printf(foo);
                 break;
             }
+        }
+    }
+    else
+    {
+        switch (key)
+        {
+            case 0xAA:  // Left Shift Released
+            case 0xB6:  // Right Shift Released
+                shift = false;
+                break;
+
+            default:
+
+                break;
         }
     }
     return esp;

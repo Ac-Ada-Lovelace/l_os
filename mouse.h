@@ -4,7 +4,6 @@
 
 #include "interrupts.h"
 #include "port.h"
-#include "types.h"
 
 void printf(const char*);
 
