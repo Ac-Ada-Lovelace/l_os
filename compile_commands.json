@@ -1,40 +1,135 @@
 [
-    {
-        "arguments": [
-            "/usr/bin/gcc",
-            "-m32",
-            "-fno-use-cxa-atexit",
-            "-fno-builtin",
-            "-fno-rtti",
-            "-fno-exceptions",
-            "-Wno-write-strings",
-            "-fno-stack-protector",
-            "-c",
-            "-o",
-            "build/release/keyboard.o",
-            "keyboard.cpp"
-        ],
-        "directory": "/home/ac/repos/l_os",
-        "file": "/home/ac/repos/l_os/keyboard.cpp",
-        "output": "/home/ac/repos/l_os/build/release/keyboard.o"
-    },
-    {
-        "arguments": [
-            "/usr/bin/gcc",
-            "-m32",
-            "-fno-use-cxa-atexit",
-            "-fno-builtin",
-            "-fno-rtti",
-            "-fno-exceptions",
-            "-Wno-write-strings",
-            "-fno-stack-protector",
-            "-c",
-            "-o",
-            "build/release/kernel.o",
-            "kernel.cpp"
-        ],
-        "directory": "/home/ac/repos/l_os",
-        "file": "/home/ac/repos/l_os/kernel.cpp",
-        "output": "/home/ac/repos/l_os/build/release/kernel.o"
-    }
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-m32",
+      "-fno-use-cxa-atexit",
+      "-fno-builtin",
+      "-fno-rtti",
+      "-fno-exceptions",
+      "-Wno-write-strings",
+      "-fno-stack-protector",
+      "-c",
+      "-o",
+      "build/update/gdt.o",
+      "src/gdt.cpp"
+    ],
+    "directory": "/home/ac/repos/l_os",
+    "file": "/home/ac/repos/l_os/src/gdt.cpp",
+    "output": "/home/ac/repos/l_os/build/update/gdt.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-m32",
+      "-fno-use-cxa-atexit",
+      "-fno-builtin",
+      "-fno-rtti",
+      "-fno-exceptions",
+      "-Wno-write-strings",
+      "-fno-stack-protector",
+      "-c",
+      "-o",
+      "build/update/driver.o",
+      "src/driver.cpp"
+    ],
+    "directory": "/home/ac/repos/l_os",
+    "file": "/home/ac/repos/l_os/src/driver.cpp",
+    "output": "/home/ac/repos/l_os/build/update/driver.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-m32",
+      "-fno-use-cxa-atexit",
+      "-fno-builtin",
+      "-fno-rtti",
+      "-fno-exceptions",
+      "-Wno-write-strings",
+      "-fno-stack-protector",
+      "-c",
+      "-o",
+      "build/update/port.o",
+      "src/port.cpp"
+    ],
+    "directory": "/home/ac/repos/l_os",
+    "file": "/home/ac/repos/l_os/src/port.cpp",
+    "output": "/home/ac/repos/l_os/build/update/port.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-m32",
+      "-fno-use-cxa-atexit",
+      "-fno-builtin",
+      "-fno-rtti",
+      "-fno-exceptions",
+      "-Wno-write-strings",
+      "-fno-stack-protector",
+      "-c",
+      "-o",
+      "build/update/interrupts.o",
+      "src/interrupts.cpp"
+    ],
+    "directory": "/home/ac/repos/l_os",
+    "file": "/home/ac/repos/l_os/src/interrupts.cpp",
+    "output": "/home/ac/repos/l_os/build/update/interrupts.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-m32",
+      "-fno-use-cxa-atexit",
+      "-fno-builtin",
+      "-fno-rtti",
+      "-fno-exceptions",
+      "-Wno-write-strings",
+      "-fno-stack-protector",
+      "-c",
+      "-o",
+      "build/update/keyboard.o",
+      "src/keyboard.cpp"
+    ],
+    "directory": "/home/ac/repos/l_os",
+    "file": "/home/ac/repos/l_os/src/keyboard.cpp",
+    "output": "/home/ac/repos/l_os/build/update/keyboard.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-m32",
+      "-fno-use-cxa-atexit",
+      "-fno-builtin",
+      "-fno-rtti",
+      "-fno-exceptions",
+      "-Wno-write-strings",
+      "-fno-stack-protector",
+      "-c",
+      "-o",
+      "build/update/kernel.o",
+      "src/kernel.cpp"
+    ],
+    "directory": "/home/ac/repos/l_os",
+    "file": "/home/ac/repos/l_os/src/kernel.cpp",
+    "output": "/home/ac/repos/l_os/build/update/kernel.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-m32",
+      "-fno-use-cxa-atexit",
+      "-fno-builtin",
+      "-fno-rtti",
+      "-fno-exceptions",
+      "-Wno-write-strings",
+      "-fno-stack-protector",
+      "-c",
+      "-o",
+      "build/update/mouse.o",
+      "src/mouse.cpp"
+    ],
+    "directory": "/home/ac/repos/l_os",
+    "file": "/home/ac/repos/l_os/src/mouse.cpp",
+    "output": "/home/ac/repos/l_os/build/update/mouse.o"
+  }
 ]
